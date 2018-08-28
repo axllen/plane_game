@@ -1,14 +1,14 @@
 import pygame
-from settings import *
+from plane_sprites import *
 
 
-class PlaneGame():
+class PlaneGame(object):
 
     def __init__(self):
         # 初始化游戏
         pygame.init()
 
-        self.screen = pygame.display.set_mode((PLANE_WIDTH, PLANE_HEIGHT))
+        self.screen = pygame.display.set_mode(SCREEN_RECT.size)
         self.clock = pygame.time.Clock()
         self.__create_sprites()
 
@@ -37,11 +37,15 @@ class PlaneGame():
         pass
 
     @staticmethod
-    def __quit_game(self):
+    def __quit_game():
         # 退出游戏
+        print('游戏结束')
+
         pygame.quit()
         exit()
 
+
 if __name__ == '__main__':
+
     plane_game = PlaneGame()
     plane_game.start_game()
