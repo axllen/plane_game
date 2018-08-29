@@ -13,7 +13,11 @@ class PlaneGame(object):
         self.__create_sprites()
 
     def __create_sprites(self):
-        pass
+
+        bg1 = Background()
+        bg2 = Background(True)
+
+        self.bg_group = pygame.sprite.Group(bg1, bg2)
 
     def start_game(self):
         print('游戏开始...')
@@ -34,7 +38,9 @@ class PlaneGame(object):
         pass
 
     def __update_sprites(self):
-        pass
+
+        self.bg_group.update()
+        self.bg_group.draw(self.screen)
 
     @staticmethod
     def __quit_game():
