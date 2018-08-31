@@ -18,16 +18,24 @@ class PlaneGame(object):
         # 设置定时器事件，创建敌机
         pygame.time.set_timer(CREATE_ENEMY_EVENT, 1000)
 
+        pygame.time.set_timer(CREATE_BULLETS_EVENT, 500)
+
     def __create_sprites(self):
 
         # 创建背景精灵和精灵组
         bg1 = Background()
         bg2 = Background(True)
-
         self.bg_group = pygame.sprite.Group(bg1, bg2)
 
         # 创建敌机精灵组
         self.enemy_group = pygame.sprite.Group()
+
+        # 创建子弹精灵组
+        self.bullet_group = pygame.sprite.Group()
+
+        # 创建英雄精灵和精灵组
+        self.hero = Hero()
+        self.hero_group = pygame.sprite.Group(self.hero)
 
     def start_game(self):
         print('游戏开始...')
@@ -43,11 +51,14 @@ class PlaneGame(object):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 PlaneGame.__quit_game()
-            elif event.type == pygame.USEREVENT:
+            elif event.type == CREATE_ENEMY_EVENT:
                 # 创建敌机精灵
                 enemy = Enemy()
                 # 将敌机精灵加入精灵组
                 self.enemy_group.add(enemy)
+            elif event.type == CREATE_BULLETS_EVENT:
+                bullets = Bullet()
+                self.bullet_group.add(bullets)
 
     def __check_collide(self):
         pass
@@ -59,6 +70,12 @@ class PlaneGame(object):
 
         self.enemy_group.update()
         self.enemy_group.draw(self.screen)
+
+        self.bullet_group.update()
+        self.bullet_group.draw(self.screen)
+
+        self.hero_group.update()
+        self.hero_group.draw(self.screen)
 
     @staticmethod
     def __quit_game():
