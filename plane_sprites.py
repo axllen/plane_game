@@ -76,7 +76,14 @@ class Hero(GameSprite):
 
     def update(self):
 
-        pass
+        # 水平移动
+        self.rect.x += self.speed
+
+        # 不飞出屏幕
+        if self.rect.x < 0:
+            self.rect.x = 0
+        elif self.rect.right > SCREEN_RECT.right:
+            self.rect.right = SCREEN_RECT.right
 
     def fire(self):
 

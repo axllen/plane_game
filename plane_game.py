@@ -17,7 +17,7 @@ class PlaneGame(object):
 
         # 设置定时器事件，创建敌机
         pygame.time.set_timer(CREATE_ENEMY_EVENT, 1000)
-
+        # 设置定时器事件，创建子弹
         pygame.time.set_timer(CREATE_BULLETS_EVENT, 500)
 
     def __create_sprites(self):
@@ -57,8 +57,19 @@ class PlaneGame(object):
                 # 将敌机精灵加入精灵组
                 self.enemy_group.add(enemy)
             elif event.type == CREATE_BULLETS_EVENT:
+                # 创建子弹精灵
                 bullets = Bullet()
+                # 将子弹精灵加入精灵组
                 self.bullet_group.add(bullets)
+
+        #捕获按键
+        keys_pressed = pygame.key.get_pressed()
+        if keys_pressed[pygame.K_RIGHT]:
+                self.hero.speed = 2
+        elif keys_pressed[pygame.K_LEFT]:
+                self.hero.speed = -2
+        else:
+            self.hero.speed = 0
 
     def __check_collide(self):
         pass
