@@ -30,9 +30,6 @@ class PlaneGame(object):
         # 创建敌机精灵组
         self.enemy_group = pygame.sprite.Group()
 
-        # 创建子弹精灵组
-        self.bullet_group = pygame.sprite.Group()
-
         # 创建英雄精灵和精灵组
         self.hero = Hero()
         self.hero_group = pygame.sprite.Group(self.hero)
@@ -57,10 +54,7 @@ class PlaneGame(object):
                 # 将敌机精灵加入精灵组
                 self.enemy_group.add(enemy)
             elif event.type == CREATE_BULLETS_EVENT:
-                # 创建子弹精灵
-                bullets = Bullet()
-                # 将子弹精灵加入精灵组
-                self.bullet_group.add(bullets)
+                self.hero.fire()
 
         #捕获按键
         keys_pressed = pygame.key.get_pressed()
@@ -72,7 +66,16 @@ class PlaneGame(object):
             self.hero.speed = 0
 
     def __check_collide(self):
-        pass
+
+        pygame.sprite.groupcollide(self.hero.bullets, self.enemy_group, True, True)
+
+        enemies = pygame.sprite.spritecollide(self.hero, self.enemy_group, True)
+
+        if len(enemies) > 0:
+
+            self.hero.kill()
+
+            PlaneGame.__quit_game()
 
     def __update_sprites(self):
 
@@ -82,11 +85,11 @@ class PlaneGame(object):
         self.enemy_group.update()
         self.enemy_group.draw(self.screen)
 
-        self.bullet_group.update()
-        self.bullet_group.draw(self.screen)
-
         self.hero_group.update()
         self.hero_group.draw(self.screen)
+
+        self.hero.bullets.update()
+        self.hero.bullets.draw(self.screen)
 
     @staticmethod
     def __quit_game():
